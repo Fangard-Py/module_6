@@ -25,8 +25,10 @@ class Pegasus(Horse, Eagle):
         return self.x_distance, self.y_distance
 
     def voice(self):
-        eagle = Eagle
-        print(f'{eagle.sound}')
+        # eagle = Eagle               # Одно из решений
+        # print(f'{eagle.sound}')
+        self.sound = Eagle.sound
+        print(f'{self.sound}')
 
 
 # print(Pegasus.mro())
