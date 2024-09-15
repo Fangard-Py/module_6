@@ -1,22 +1,18 @@
 class Horse:
     def __init__(self):
-        self.dx = None
         self.x_distance = 0
         self.sound = 'Frrr'
 
     def run(self, dx):
-        self.dx = dx
         self.x_distance += dx
 
 
 class Eagle:
     def __init__(self):
-        self.dy = None
         self.y_distance = 0
         self.sound = 'I train, eat, sleep, and repeat'
 
     def fly(self, dy):
-        self.dy = dy
         self.y_distance += dy
 
 
