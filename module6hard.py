@@ -1,4 +1,6 @@
 from math import pi, sqrt
+
+
 class Figure:
     sides_count = 0
 
@@ -56,22 +58,14 @@ class Triangle(Figure):
 
     def __init__(self, color, sides, filled=True):
         super().__init__(sides, color, filled)
-        self.__height = self.__calculate_height()
+        self.height = self.get_square()
 
-    def __calculate_height(self):
+    def get_square(self):
         a, b, c = self.get_sides()
         s = (a + b + c) / 2  # Полупериметр
         area = sqrt(s * (s - a) * (s - b) * (s - c))  # Площадь по формуле Герона
         height = (2 * area) / a
         return height
-
-    def get_height(self):
-        return self.__height
-
-    def get_square(self):
-        a, b, c = self.get_sides()
-        s = (a + b + c) / 2  # Полупериметр
-        return sqrt(s * (s - a) * (s - b) * (s - c))  # Площадь по формуле Герона
 
 
 class Cube(Figure):
@@ -84,7 +78,6 @@ class Cube(Figure):
 
     def get_volume(self):
         return self.__side_length ** 3
-
 
 
 circle1 = Circle((200, 200, 100), 10)  # (Цвет, стороны)
