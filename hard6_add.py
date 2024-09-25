@@ -1,5 +1,6 @@
 import math
 import time
+from math import sqrt
 from module6hard import Figure, Circle, Triangle, Cube
 
 TIME_COUNT = 3
@@ -10,19 +11,21 @@ class Figure:
 
     def __init__(self, color: list, *sides: int):
         self.filled = False
-        self.__sides = list(sides)
+        self.__sides = [*sides]
+        if len(sides) != self.sides_count:
+            self.__sides = [1] * self.sides_count
         self.__color = [*color]
         if self.set_color(*color):
+            if isinstance(self.__color, (int, float)):
                 pass
         else:
-                self.__color = [0, 0, 0]
+            self.__color = [0, 0, 0]
 
     def get_color(self):
         return self.__color
 
     def __is_valid_color(self, r, g, b):
-                return 0 <= r <= 255 and 0 <= g <= 255 and 0 <= b <= 255
-
+        return 0 <= r <= 255 and 0 <= g <= 255 and 0 <= b <= 255
 
     def set_color(self, r, g, b):
         if self.__is_valid_color(r, g, b):
@@ -31,15 +34,14 @@ class Figure:
         else:
             return False
 
-
     def __is_valid_sides(self, *args):
         if len(args) == self.sides_count:
             for i in args:
-                if int(i) <= 0:
-                    return False
-                if int(i) >= -1:
+                if not isinstance(i, int) or i <= 0:
                     return False
             return True
+        else:
+            return False
 
     def get_sides(self):
         return self.__sides
@@ -52,6 +54,45 @@ class Figure:
             self.__sides = list(new_sides)
         else:
             return self.__sides
+
+
+class Circle(Figure):
+    sides_count = 1
+
+    def __init__(self, color, *sides):
+        super().__init__(color, *sides)
+        if len(sides) == 1:
+            self.__radius = sides[0] / (2 * 3.14)
+        else:
+            self.__radius = 0
+
+    def get_square(self):
+        return 3.14 * (self.__radius ** 2)
+
+class Triangle(Figure):
+    sides_count = 3
+
+    def __init__(self, color, *sides):
+        super().__init__(color, *sides)
+        self.height = self.get_square()
+
+    def get_square(self):
+        a, b, c = self.get_sides()
+        s = (a + b + c) / 2  # Полупериметр
+        area = sqrt(s * (s - a) * (s - b) * (s - c))  # Площадь по формуле Герона
+        height = (2 * area) / a
+        return height
+
+class Cube(Figure):
+    sides_count = 12
+
+    def __init__(self, color, *sides):
+        super().__init__(color, *sides)
+        self.set_sides(*list(sides) * 12)
+
+    def get_volume(self):
+        sides = self.get_sides()
+        return sides[0] ** 3
 
 
 print("Проверка класса Figure... ")
